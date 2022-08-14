@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MainDisplay from "./components/MainDisplay";
 import MapDisplay from "./components/MapDisplay";
 import ArrowIcon from "./images/icon-arrow.svg";
-import Loader from "./images/Dual Ring-1s-191px (1).gif";
+import loader from "./images/Eclipse-1s-200px (1).gif";
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,7 +25,7 @@ const App = () => {
   }, []);
 
   const getData = async (searchQuery = "") => {
-    const API_KEY = process.env.REACT_APP_IPFY_KEY;
+    const API_KEY = process.env.REACT_APP_API_KEY;
     await fetch(
       `https://geo.ipify.org/api/v1?apiKey=${API_KEY}&ipAddress=${searchQuery}&domain=${searchQuery}`
     )
@@ -47,14 +47,28 @@ const App = () => {
         console.log(err);
       });
   };
+  const handleChange = (e) => {
+    setSearchQuery(e.target.value);
+    setErrorMessage(false);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const ipAddressRegex =
+      /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+    const hostnameRegex =
+      /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
 
-  const handleChange = (e) => {};
-  const handleSubmit = (e) => {};
+    if (ipAddressRegex.test(searchQuery) || hostnameRegex.test(searchQuery)) {
+      getData(searchQuery);
+    } else {
+      setErrorMessage(true);
+    }
+  };
 
   return loading === false ? (
     <div>
-      <div>
-        <div>IP Address Tracker</div>
+      <div className="d-flex flex-column align-items-center main-container">
+        <div className="text-white main-text pt-4 pb-3">IP Address Tracker</div>
         <div className="form-container">
           <form onSubmit={handleSubmit}>
             <input
@@ -68,15 +82,26 @@ const App = () => {
               <img src={ArrowIcon} alt="submit" />
             </button>
           </form>
-          {errorMessage && <div>Invalid domain name or IP address</div>}
+          {errorMessage && (
+            <div className="text-white pl-2">
+              Invalid domain name or IP address
+            </div>
+          )}
         </div>
       </div>
-      <MainDisplay />
-      <MapDisplay />
+      <MainDisplay
+        ip={data.ip}
+        location={[data.city, data.country, data.postalCode]}
+        timezone={data.timezone}
+        isp={data.isp}
+      />
+      <MapDisplay
+        center={data.lat && data.lng ? [data.lat, data.lng] : [51.505, -0.09]}
+      />
     </div>
   ) : (
-    <div>
-      <img src={Loader} alt="Loading..." />
+    <div className="loader-img">
+      <img src={loader} alt="Loading..." width="110"/>
     </div>
   );
 };

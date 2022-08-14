@@ -1,10 +1,130 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
 
 body {
-  font-family: 'Rubik', sans-serif;;
+  font-family: 'Rubik', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  will-change: transform !important;
   position: relative;
+  will-change: transform !important;
+
+}
+
+.main-container {
+  background-image: url("./images/pattern-bg.png");
+  background-repeat: no-repeat;
+  height: 30vh;
+  background-position: center;
+  background-size: cover;
+  z-index: 0;
+}
+
+.small-text {
+  font-size: 18px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: hsl(0, 0%, 59%);
+}
+.normal-text {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.main-text {
+  font-size: 35px;
+  font-weight: 700;
+}
+
+/* form css */
+.input-box {
+  border-radius: 15px 1px 1px 15px;
+  padding: 14px;
+  width: 60vh;
+  border: none;
+}
+.submit-btn {
+  padding: 15px;
+  border: none;
+  background-color: black;
+  border-radius: 1px 15px 15px 1px;
+  width: 7vh;
+}
+.submit-btn:hover {
+  background-color: hsl(0, 0%, 17%);
+}
+
+.loader-img {
+  position: absolute;
+  top: 40vh;
+  left: 47vw;
+ 
+}
+
+@media screen and (max-width: 650px) {
+  .input-box {
+    width: 35vh;
+  }
+  .submit-btn {
+    width: 7vh;
+  }
+}
+
+/* display container css*/
+.display-container {
+  z-index: 2;
+  background: white;
+  top: 25vh;
+  padding: 4vh;
+  border-radius: 2vh;
+  filter: drop-shadow(0 0 5px hsl(0, 0%, 59%));
+  width: 75%;
+  justify-content: space-around;
+  align-items: center;
+  left: 12%;
+}
+
+.divider {
+  border-left: 1px solid hsl(0, 0%, 59%);
+  height: 10vh;
+  margin: 0px 2vh;
+}
+
+@media screen and (min-width: 679px) and (max-width: 1000px) {
+  .display-container {
+    width: 90%;
+    left: 5%;
+  }
+}
+
+@media screen and (max-width: 678px) {
+  .display-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 3vh;
+    left: 12%;
+  }
+  .display-container > * {
+    padding: 1vh 0vh;
+  }
+  .divider {
+    display: none;
+  }
+}
+
+@media screen and (max-height: 500px) {
+  .display-container {
+    top: 43vh;
+  }
+  .main-container {
+    height: 50vh;
+  }
+  .leaflet-container {
+    height: 60vh;
+  }
+  .input-box {
+    width: 60vh;
+  }
+  .submit-btn {
+    width: 10vh;
+  }
 }
